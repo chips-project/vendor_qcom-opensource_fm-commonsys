@@ -839,9 +839,12 @@ public class FMRadioService extends Service
       /* Application/UI is attached, so get out of lower power mode */
       if (isFmOn()) {
           setLowPowerMode(false);
-          startFM();
-          if (mReceiver.isCherokeeChip() && (mPref.getBoolean("SLIMBUS_SEQ", true))) {
-              enableSlimbus(ENABLE_SLIMBUS_DATA_PORT);
+          if(false == mPlaybackInProgress) {
+              startFM();
+              if (mReceiver != null && mReceiver.isCherokeeChip() &&
+                       (mPref.getBoolean("SLIMBUS_SEQ", true))) {
+                  enableSlimbus(ENABLE_SLIMBUS_DATA_PORT);
+              }
           }
       }
    }
@@ -4041,9 +4044,12 @@ public class FMRadioService extends Service
            // adding code for audio focus gain.
            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
            audioManager.requestAudioFocus(mGainFocusReq);
-           startFM();
-           if (mReceiver.isCherokeeChip() && (mPref.getBoolean("SLIMBUS_SEQ", true))) {
-              enableSlimbus(ENABLE_SLIMBUS_DATA_PORT);
+           if(false == mPlaybackInProgress) {
+               startFM();
+               if (mReceiver != null && mReceiver.isCherokeeChip() &&
+                        (mPref.getBoolean("SLIMBUS_SEQ", true))) {
+                   enableSlimbus(ENABLE_SLIMBUS_DATA_PORT);
+               }
            }
            mStoppedOnFocusLoss = false;
        }
